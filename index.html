@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PingMe - Contact Car Owners Without Sharing Numbers</title>
+    <meta name="description" content="PingMe - Contact car owners without sharing numbers. A private and secure way to resolve wrong parking issues.">
+    <meta name="keywords" content="PingMe, wrong parking, contact car owners, private communication, secure app">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary: #FFD700;
+            --primary-light: #FFEB99;
+            --primary-dark: #E6C200;
+            --secondary: #111111;
+            --secondary-light: #333333;
+            --light: #FFFFFF;
+            --gray: #F7F7F7;
+            --dark-gray: #555555;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            color: var(--secondary);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+            background-color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary);
+            color: var (--primary);
+            transform: translateY(-5px);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 20px 0;
+        }
+        
+        header.scrolled {
+            background-color: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+        
+        header.scrolled .logo {
+            color: var(--secondary);
+        }
+        
+        header.scrolled .nav-links a {
+            color: var(--secondary);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(10deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 35px;
+        }
+        
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var (--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--secondary);
+            z-index: 1010;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            padding: 150px 20px 80px;
+            text-align: center;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(200px, -200px);
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            transform: translate(-150px, 150px);
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .hero h1 .highlight {
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--secondary);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-image {
+            max-width: 450px;
+            margin: 30px auto 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        /* Video Demo Section */
+        .video-demo {
+            background-color: var(--light);
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .video-demo h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .video-container {
+            max-width: 480px; /* Set the maximum width for the video */
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        video {
+            width: 100%; /* Ensure the video scales properly */
+            height: auto;
+            border-radius: 15px;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            background-color: var(--gray);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            right: -150px;
+            width: 400px;
+            height: 400px;
+            background-color: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--dark-gray);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 280px;
+            background-color: var(--light);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .step:hover::before {
+            width: 100%;
+            background-color: var(--primary-light);
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin: 0 auto 25px;
+            font-size: 32px;
+            color: var(--secondary);
+            box-shadow: 0 10px 20px rgba(230, 194, 0, 0.3);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .step:hover .step-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .step h3 {
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .step p {
+            color: var(--dark-gray);
+            transition: var(--transition);
+        }
+        
+        /* Privacy & Trust Section */
+        .privacy-trust {
+            background-color: var(--light);
+            text-align: center;
+        }
+        
+        .trust-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .trust-feature {
+            padding: 40px 30px;
+            background-color: var(--gray);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .trust-feature::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, var(--primary-light) 0%, transparent 100%);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .trust-feature:hover::after {
+            height: 100%;
+        }
+        
+        .trust-feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .trust-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            background: var(--light);
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .trust-feature:hover .trust-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+        
+        .trust-feature h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Email Signup Section */
+        .email-signup {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .email-signup::before,
+        .email-signup::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .email-signup::before {
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .email-signup::after {
+            bottom: -100px;
+            left: -100px;
+            width: 250px;
+            height: 250px;
+        }
+        
+        .signup-form {
+            max-width: 550px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .signup-form-inner {
+            display: flex;
+            background-color: var(--light);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .signup-form input {
+            flex: 1;
+            border: none;
+            padding: 20px 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .signup-form button {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: var(--primary);
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .signup-form button:hover {
+            transform: translateX(5px);
+        }
+        
+        /* App Download Section */
+        .app-download {
+            text-align: center;
+            background-color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-download::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(var(--primary-light) 2px, transparent 2px);
+            background-size: 30px 30px;
+            opacity: 0.2;
+        }
+        
+        .app-download-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .app-button {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: var(--light);
+            padding: 12px 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            min-width: 200px;
+        }
+        
+        .app-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .app-icon {
+            font-size: 30px;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .app-text {
+            text-align: left;
+        }
+        
+        .app-text small {
+            display: block;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .app-text strong {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .app-mockup {
+            max-width: 300px;
+            margin: 50px auto 0;
+            position: relative;
+        }
+        
+        .app-mockup img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-light);
+            padding: 60px 20px 30px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            z-index: 10;
+            margin-top: auto;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 50%;
+            transform: translate(150px, 150px);
+        }
+        
+        /* Footer Improvements */
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .footer-logo a {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+        
+        /* Responsive Footer */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        
+            .footer-logo a {
+                justify-content: center;
+            }
+        
+            .footer-links ul {
+                text-align: center;
+            }
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero-image {
+                position: static;
+                transform: none;
+                width: 100%;
+                max-width: 450px;
+                margin: 60px auto 0;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                text-align: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background-color: var(--light);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .step {
+                min-width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .trust-feature {
+                min-width: 100%;
+            }
+            
+            .signup-form-inner {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            
+            .signup-form input {
+                width: 100%;
+                border-radius: 20px;
+                text-align: center;
+            }
+            
+            .signup-form button {
+                width: 100%;
+                border-radius: 20px;
+                padding: 15px;
+            }
+            
+            .app-button {
+                min-width: 100%;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-image {
+                max-width: 300px;
+                margin-top: 20px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        a:focus, button:focus {
+            outline: 2px dashed var(--primary-dark);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay --><!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <div class="logo-icon">P</div>
+                    PingMe
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#privacy">Privacy</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" aria-label="Toggle Mobile Menu">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Stuck? <span class="highlight">Just pingMe</span></h1>
+                <p>by <strong>Ping IFF LLP</strong></p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary" aria-label="Download the PingMe App">Download the App</a>
+                    <a href="#how-it-works" class="btn btn-secondary" aria-label="Learn How PingMe Works">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="p.jpg" alt="PingMe App Preview">
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section class="video-demo">
+        <div class="container">
+            <h2>See How It Works</h2>
+            <div class="video-container">
+                <video autoplay muted loop playsinline width="480" height="270" poster="video-placeholder.jpg">
+                    <source src="https://drive.google.com/uc?export=download&id=1fwqzk4hOfrPzCEpBOU2a_A74RYBw95ov" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>How PingMe Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Enter vehicle number</h3>
+                    <p>Simply scan or type the vehicle's registration number that needs to be moved.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Send an anonymous Ping</h3>
+                    <p>Choose from predefined messages or create your own. Your identity stays hidden.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Car owner gets notified</h3>
+                    <p>The owner receives a secure notification about their vehicle with your request.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy & Trust Section -->
+    <section class="privacy-trust" id="privacy">
+        <div class="container">
+            <h2>Your Privacy Is Our Priority</h2>
+            <div class="trust-features">
+                <div class="trust-feature">
+                    <div class="trust-icon">🔒</div>
+                    <h3>No Personal Info Shared</h3>
+                    <p>Your phone number and personal details are never revealed to the other party.</p>
+                </div>
+                <div class="trust-feature">
+                    <div class="trust-icon">🛡️</div>
+                    <h3>End-to-End Secure Pings</h3>
+                    <p>All communication is encrypted and securely delivered through our system.</p>
+                </div>
+                <div class="trust-feature">
+                    <div class="trust-icon">👥</div>
+                    <h3>Trusted by 5,000+ Users</h3>
+                    <p>Join thousands of satisfied users in Chandigarh who trust PingMe daily.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Signup Section -->
+    <section class="email-signup">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Get notified about new features and updates as we expand to more cities.</p>
+            <form class="signup-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Notify Me</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section class="app-download" id="download">
+        <div class="container">
+            <h2>Download PingMe Today</h2>
+            <p>Available for both Android and iOS devices. Free to download!</p>
+            <div class="app-buttons">
+                <a href="#" class="app-button">
+                    <div class="app-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.6 9.2l-2.1-2.1C15.5 6.5 15.1 6 14.3 6H9.7c-.8 0-1.2.5-1.2 1.1v2.2"/>
+                            <path d="M9 18.5v.5c0 .8.7 1.5 1.5 1.5h3c.8 0 1.5-.7 1.5-1.5v-.5"/>
+                            <path d="M6 11V8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2v-2"/>
+                            <path d="M17 14H7"/>
+                            <path d="M12 11.5v5"/>
+                        </svg>
+                    </div>
+                    <div class="app-text">
+                        <small>Get it on</small>
+                        <strong>Google Play</strong>
+                    </div>
+                </a>
+                <a href="#" class="app-button">
+                    <div class="app-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7z"/>
+                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path d="M12 4v2"/>
+                            <path d="M12 18v2"/>
+                            <path d="M4 12H2"/>
+                            <path d="M22 12h-2"/>
+                        </svg>
+                    </div>
+                    <div class=" app-text">
+                        <small>Download on the</small>
+                        <strong>App Store</strong>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Updated Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Footer Logo and Description -->
+                <div class="footer-logo">
+                    <a href="#" aria-label="PingMe Home">
+                        <div class="logo-icon">P</div>
+                        PingMe
+                    </a>
+                    <p>Simplifying vehicle communication in Chandigarh, India.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <nav class="footer-links" aria-label="Footer Navigation">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#download">Terms of Service</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Social Media Links -->
+                <div class="footer-social">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753C20.18 7.773 21.692 5.25 22 4.009z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 PingMe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuOverlay = document.createElement('div');
+        mobileMenuOverlay.classList.add('mobile-menu-overlay');
+        document.body.appendChild(mobileMenuOverlay);
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+        });
+
+        mobileMenuOverlay.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add Scroll Event for Header
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
